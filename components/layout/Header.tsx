@@ -108,85 +108,124 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#eadfca] bg-[#fbf7ef]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-5">
-        <Link href="/" className="shrink-0">
-          <div className="text-3xl font-semibold tracking-[0.28em] text-neutral-950">
-            LUXORA
-          </div>
+    <header className="site-header">
+      <input
+        id="mobile-nav-toggle"
+        type="checkbox"
+        className="mobile-nav-toggle"
+        aria-label="Toggle mobile menu"
+      />
 
-          <div className="mt-1 text-xs tracking-[0.32em] text-[#a77a25] uppercase">
-            Fine Jewellery
-          </div>
+      <div className="site-header__inner">
+        <Link href="/" className="site-brand" aria-label="LUXORA home">
+          <span className="site-brand__name">LUXORA</span>
+          <span className="site-brand__tagline">Fine Jewellery</span>
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-5 xl:flex">
+        <nav className="site-nav site-nav--desktop" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="whitespace-nowrap text-xs font-medium tracking-[0.18em] text-neutral-800 uppercase transition hover:text-[#a77a25]"
+              className="site-nav__link"
+              aria-current={pathname === link.href ? "page" : undefined}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <nav className="hidden flex-1 items-center justify-center gap-4 lg:flex xl:hidden">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="whitespace-nowrap text-[10px] font-medium tracking-[0.12em] text-neutral-800 uppercase transition hover:text-[#a77a25]"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex shrink-0 items-center gap-3">
+        <div className="site-actions">
           <Link
             href="/account"
-            className="whitespace-nowrap text-sm text-neutral-900 transition hover:text-[#a77a25]"
+            className="site-action-link site-action-link--text"
           >
             Account
           </Link>
 
           <Link
             href="/wishlist"
-            className="flex items-center gap-1 whitespace-nowrap text-sm text-neutral-900 transition hover:text-[#a77a25]"
+            className="site-action-link site-action-link--text site-action-link--wishlist"
           >
             Wishlist
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#d6b46a] px-1.5 text-[11px] font-semibold text-neutral-950">
+            <span className="luxora-count-badge">
               {wishlistCount}
             </span>
           </Link>
 
           <Link
             href="/cart"
-            className="luxora-cart-link inline-flex items-center gap-2 rounded-full bg-neutral-950 px-6 py-3 text-xs font-semibold tracking-[0.18em] text-white uppercase transition hover:bg-[#a77a25]"
+            className="site-action-link site-action-link--cart luxora-cart-link"
           >
             Cart
-            <span className="luxora-cart-count inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#d6b46a] px-1.5 text-[11px] font-semibold text-neutral-950">
+            <span className="luxora-cart-count luxora-count-badge">
               {cartCount}
             </span>
           </Link>
+
+          <label
+            className="site-menu-button"
+            htmlFor="mobile-nav-toggle"
+            aria-label="Open menu"
+          >
+            <span />
+            <span />
+            <span />
+          </label>
         </div>
       </div>
 
-      <div className="border-t border-[#eadfca] px-4 py-3 lg:hidden">
-        <div className="mx-auto flex max-w-7xl gap-4 overflow-x-auto">
+      <label
+        className="mobile-nav-backdrop"
+        htmlFor="mobile-nav-toggle"
+        aria-label="Close mobile menu"
+      />
+
+      <nav
+        id="mobile-navigation"
+        className="mobile-nav"
+        aria-label="Mobile navigation"
+      >
+        <div className="mobile-nav__header">
+          <div>
+            <p className="mobile-nav__brand">LUXORA</p>
+            <p className="mobile-nav__tagline">Fine Jewellery</p>
+          </div>
+
+          <label
+            className="mobile-nav__close"
+            htmlFor="mobile-nav-toggle"
+            aria-label="Close menu"
+          >
+            X
+          </label>
+        </div>
+
+        <div className="mobile-nav__links">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="shrink-0 whitespace-nowrap text-xs font-medium tracking-[0.16em] text-neutral-800 uppercase transition hover:text-[#a77a25]"
+              className="mobile-nav__link"
+              aria-current={pathname === link.href ? "page" : undefined}
             >
               {link.label}
             </Link>
           ))}
         </div>
-      </div>
+
+        <div className="mobile-nav__actions">
+          <Link href="/account" className="luxora-btn luxora-btn-outline">
+            Account
+          </Link>
+          <Link href="/wishlist" className="luxora-btn luxora-btn-outline">
+            Wishlist <span className="luxora-count-badge">{wishlistCount}</span>
+          </Link>
+          <Link href="/cart" className="luxora-btn luxora-btn-dark">
+            Cart <span className="luxora-count-badge">{cartCount}</span>
+          </Link>
+        </div>
+      </nav>
     </header>
   );
 }

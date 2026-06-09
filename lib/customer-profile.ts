@@ -1,5 +1,6 @@
 import "server-only";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseUserSafely } from "@/lib/supabase/auth";
 
 export type CustomerProfile = {
   id: string;
@@ -15,10 +16,7 @@ export type CustomerProfile = {
 
 export async function getCurrentCustomer() {
   const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getSupabaseUserSafely(supabase);
 
   if (!user) {
     return {

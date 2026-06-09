@@ -1,6 +1,7 @@
 import "server-only";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseUserSafely } from "@/lib/supabase/auth";
 
 export type CustomerQuoteRequest = {
   id: string;
@@ -53,10 +54,7 @@ deposit_created_at: string | null;
 
 export async function getCurrentCustomerQuoteRequests() {
   const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getSupabaseUserSafely(supabase);
 
   if (!user) {
     return [];

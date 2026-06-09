@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { clearStaleBrowserSession } from "@/lib/supabase/clear-stale-session";
 
 type AuthMode = "login" | "signup";
 
@@ -33,6 +34,8 @@ export function CustomerAuthForm() {
       const supabase = createSupabaseBrowserClient();
 
       if (mode === "login") {
+        await clearStaleBrowserSession(supabase);
+
         const { error: loginError } = await supabase.auth.signInWithPassword({
           email,
           password,

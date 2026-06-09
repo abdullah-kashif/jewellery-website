@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
+import { clearStaleBrowserSession } from "@/lib/supabase/clear-stale-session";
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export function AdminLoginForm() {
 
     try {
       const supabase = createSupabaseBrowserClient();
+      await clearStaleBrowserSession(supabase);
 
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email,

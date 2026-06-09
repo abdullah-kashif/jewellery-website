@@ -1,4 +1,3 @@
-import { WishlistProvider } from "@/components/providers/WishlistProvider";
 import { WishlistClient } from "@/components/wishlist/WishlistClient";
 
 export const dynamic = "force-dynamic";
@@ -9,9 +8,5 @@ export const metadata = {
 };
 
 export default function WishlistPage() {
-  return (
-    <WishlistProvider>
-      <WishlistClient />
-    </WishlistProvider>
-  );
+  return <WishlistClient />;
 }

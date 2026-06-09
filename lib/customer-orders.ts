@@ -1,6 +1,7 @@
 import "server-only";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSupabaseUserSafely } from "@/lib/supabase/auth";
 
 export type CustomerOrderItem = {
   id: string;
@@ -40,10 +41,7 @@ export type CustomerOrder = {
 
 export async function getCurrentCustomerOrders() {
   const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getSupabaseUserSafely(supabase);
 
   if (!user) {
     return [];

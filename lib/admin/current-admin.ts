@@ -1,14 +1,12 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseUserSafely } from "@/lib/supabase/auth";
 import type { AdminUser } from "@/lib/admin/permissions";
 
 export async function getCurrentAdminUser() {
   const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getSupabaseUserSafely(supabase);
 
   if (!user) {
     return null;

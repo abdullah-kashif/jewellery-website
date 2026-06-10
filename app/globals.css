@@ -362,14 +362,6 @@ button.luxora-cart-link:hover {
   backdrop-filter: blur(16px);
 }
 
-.mobile-nav-toggle {
-  position: fixed;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
 .site-header__inner {
   width: 100%;
   max-width: 1540px;
@@ -528,7 +520,7 @@ button.luxora-cart-link:hover {
   transition: opacity 0.2s ease;
 }
 
-.mobile-nav-toggle:checked ~ .mobile-nav-backdrop {
+.site-header--menu-open .mobile-nav-backdrop {
   display: block;
   opacity: 1;
   pointer-events: auto;
@@ -553,7 +545,7 @@ button.luxora-cart-link:hover {
   transition: transform 0.24s ease;
 }
 
-.mobile-nav-toggle:checked ~ .mobile-nav {
+.site-header--menu-open .mobile-nav {
   display: flex;
   transform: translateX(0);
 }

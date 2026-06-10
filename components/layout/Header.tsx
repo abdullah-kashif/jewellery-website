@@ -134,16 +134,9 @@ export function Header() {
   }
 
   return (
-    <header className="site-header">
-      <input
-        id="mobile-nav-toggle"
-        type="checkbox"
-        className="mobile-nav-toggle"
-        aria-label="Toggle mobile menu"
-        checked={isMobileMenuOpen}
-        onChange={(event) => setIsMobileMenuOpen(event.target.checked)}
-      />
-
+    <header
+      className={`site-header${isMobileMenuOpen ? " site-header--menu-open" : ""}`}
+    >
       <div className="site-header__inner">
         <Link href="/" className="site-brand" aria-label="LUXORA home">
           <span className="site-brand__name">LUXORA</span>
@@ -191,22 +184,24 @@ export function Header() {
             </span>
           </Link>
 
-          <label
+          <button
+            type="button"
             className="site-menu-button"
-            htmlFor="mobile-nav-toggle"
             aria-label="Open menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <span />
             <span />
             <span />
-          </label>
+          </button>
         </div>
       </div>
 
-      <label
+      <button
+        type="button"
         className="mobile-nav-backdrop"
-        htmlFor="mobile-nav-toggle"
         aria-label="Close mobile menu"
         onClick={closeMobileMenu}
       />
@@ -222,14 +217,14 @@ export function Header() {
             <p className="mobile-nav__tagline">Fine Jewellery</p>
           </div>
 
-          <label
+          <button
+            type="button"
             className="mobile-nav__close"
-            htmlFor="mobile-nav-toggle"
             aria-label="Close menu"
             onClick={closeMobileMenu}
           >
             X
-          </label>
+          </button>
         </div>
 
         <div className="mobile-nav__links">

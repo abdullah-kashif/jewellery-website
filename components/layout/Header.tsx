@@ -72,8 +72,13 @@ export function Header() {
   const pathname = usePathname();
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isAdminRoute = pathname?.startsWith("/admin");
+
+  function closeMobileMenu() {
+    setIsMobileMenuOpen(false);
+  }
 
   useEffect(() => {
     function updateCounts() {
@@ -103,6 +108,27 @@ export function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [isMobileMenuOpen]);
+
   if (isAdminRoute) {
     return null;
   }
@@ -114,6 +140,8 @@ export function Header() {
         type="checkbox"
         className="mobile-nav-toggle"
         aria-label="Toggle mobile menu"
+        checked={isMobileMenuOpen}
+        onChange={(event) => setIsMobileMenuOpen(event.target.checked)}
       />
 
       <div className="site-header__inner">
@@ -167,6 +195,7 @@ export function Header() {
             className="site-menu-button"
             htmlFor="mobile-nav-toggle"
             aria-label="Open menu"
+            onClick={() => setIsMobileMenuOpen(true)}
           >
             <span />
             <span />
@@ -179,6 +208,7 @@ export function Header() {
         className="mobile-nav-backdrop"
         htmlFor="mobile-nav-toggle"
         aria-label="Close mobile menu"
+        onClick={closeMobileMenu}
       />
 
       <nav
@@ -196,6 +226,7 @@ export function Header() {
             className="mobile-nav__close"
             htmlFor="mobile-nav-toggle"
             aria-label="Close menu"
+            onClick={closeMobileMenu}
           >
             X
           </label>
@@ -208,6 +239,7 @@ export function Header() {
               href={link.href}
               className="mobile-nav__link"
               aria-current={pathname === link.href ? "page" : undefined}
+              onClick={closeMobileMenu}
             >
               {link.label}
             </Link>
@@ -215,13 +247,25 @@ export function Header() {
         </div>
 
         <div className="mobile-nav__actions">
-          <Link href="/account" className="luxora-btn luxora-btn-outline">
+          <Link
+            href="/account"
+            className="luxora-btn luxora-btn-outline"
+            onClick={closeMobileMenu}
+          >
             Account
           </Link>
-          <Link href="/wishlist" className="luxora-btn luxora-btn-outline">
+          <Link
+            href="/wishlist"
+            className="luxora-btn luxora-btn-outline"
+            onClick={closeMobileMenu}
+          >
             Wishlist <span className="luxora-count-badge">{wishlistCount}</span>
           </Link>
-          <Link href="/cart" className="luxora-btn luxora-btn-dark">
+          <Link
+            href="/cart"
+            className="luxora-btn luxora-btn-dark"
+            onClick={closeMobileMenu}
+          >
             Cart <span className="luxora-count-badge">{cartCount}</span>
           </Link>
         </div>

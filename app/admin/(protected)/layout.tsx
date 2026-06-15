@@ -17,15 +17,15 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#fbf7ef] text-neutral-950">
-      <div className="flex min-h-screen">
+      <div className="admin-shell flex min-h-screen">
         <AdminSidebar
           adminUser={adminUser}
           roleLabel={roleLabels[adminUser.role]}
           sections={allowedSections}
         />
 
-        <main className="min-w-0 flex-1">
-          <div className="mx-auto w-full max-w-7xl px-6 py-8 lg:px-8">
+        <main className="admin-main min-w-0 flex-1">
+          <div className="admin-main-inner mx-auto w-full max-w-7xl px-6 py-8 lg:px-8">
             {children}
           </div>
         </main>

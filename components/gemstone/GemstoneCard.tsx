@@ -12,31 +12,33 @@ function formatPrice(price: number) {
 
 export function GemstoneCard({ gemstone }: { gemstone: Product }) {
   const productHref = `/product/${gemstone.slug}`;
-  const quoteHref = `/custom-order?stone=${gemstone.stoneType}`;
+  const quoteHref = `/custom-order?stone=${encodeURIComponent(
+    gemstone.stoneType || gemstone.name
+  )}`;
 
   return (
-    <article className="group overflow-hidden rounded-3xl border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <Link href={productHref}>
         <ProductImageBox
           slug={gemstone.slug}
           name={gemstone.name}
-          className="h-64"
+          className="aspect-square w-full"
         />
       </Link>
 
-      <div className="mt-5">
+      <div className="mt-5 flex flex-1 flex-col">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-xs tracking-[0.2em] text-[#a77a25] uppercase">
-            {gemstone.stoneType}
+          <p className="line-clamp-1 text-xs tracking-[0.2em] text-[#a77a25] uppercase">
+            {gemstone.stoneType || gemstone.category}
           </p>
 
-          <span className="rounded-full bg-[#fbf7ef] px-3 py-1 text-[11px] font-medium text-neutral-700">
+          <span className="shrink-0 rounded-full bg-[#fbf7ef] px-3 py-1 text-[11px] font-medium text-neutral-700">
             {gemstone.stockStatus}
           </span>
         </div>
 
         <Link href={productHref}>
-          <h3 className="mt-3 text-lg font-semibold text-neutral-950 transition group-hover:text-[#a77a25]">
+          <h3 className="mt-3 line-clamp-2 min-h-[3.5rem] text-lg font-semibold leading-7 text-neutral-950 transition group-hover:text-[#a77a25]">
             {gemstone.name}
           </h3>
         </Link>
@@ -44,14 +46,14 @@ export function GemstoneCard({ gemstone }: { gemstone: Product }) {
         <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-2xl bg-[#fbf7ef] p-3">
             <p className="text-xs text-neutral-500">Carat</p>
-            <p className="font-medium text-neutral-950">
+            <p className="line-clamp-2 font-medium text-neutral-950">
               {gemstone.gemstoneCarat || gemstone.diamondCarat || "N/A"}
             </p>
           </div>
 
           <div className="rounded-2xl bg-[#fbf7ef] p-3">
             <p className="text-xs text-neutral-500">Shape</p>
-            <p className="font-medium text-neutral-950">
+            <p className="line-clamp-2 font-medium text-neutral-950">
               {gemstone.gemstoneShape || gemstone.diamondCut || "N/A"}
             </p>
           </div>
@@ -61,7 +63,7 @@ export function GemstoneCard({ gemstone }: { gemstone: Product }) {
           {gemstone.shortDescription}
         </p>
 
-        <div className="mt-4">
+        <div className="mt-auto pt-4">
           {gemstone.quoteRequired ? (
             <div>
               <p className="text-lg font-semibold text-neutral-950">
@@ -96,7 +98,7 @@ export function GemstoneCard({ gemstone }: { gemstone: Product }) {
           )}
 
           <Link
-            href={`/custom-order?stone=${gemstone.stoneType}`}
+            href={quoteHref}
             className="rounded-full border border-[#d6b46a] px-4 py-3 text-xs font-semibold text-[#a77a25] transition hover:bg-[#d6b46a] hover:text-neutral-950"
           >
             Quote

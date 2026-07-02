@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { getKnownProductImage } from "@/lib/product-images";
 
 export type ShopProduct = {
   id: string;
@@ -130,7 +131,7 @@ function getImageUrl(product: ShopProduct) {
     }
   }
 
-  return "";
+  return getKnownProductImage(product.slug) || "";
 }
 
 export function ShopClient({
@@ -367,12 +368,14 @@ export function ShopClient({
             <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {visibleProducts.map((product) => {
                 const imageUrl = getImageUrl(product);
-                const productHref = `/product/${product.slug || product.id}`;
+                const productHref = `/product/${encodeURIComponent(
+                  product.slug || product.id
+                )}`;
 
                 return (
                   <article
                     key={product.id}
-                    className="overflow-hidden rounded-[2rem] border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                    className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                   >
                     <Link href={productHref} className="block">
                       <div className="flex aspect-square items-center justify-center overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-white via-[#fbf7ef] to-[#eadfca]">
@@ -395,17 +398,17 @@ export function ShopClient({
                     </Link>
 
                     <div className="mt-5 flex items-center justify-between gap-3">
-                      <p className="text-xs font-semibold tracking-[0.25em] text-[#a77a25] uppercase">
+                      <p className="line-clamp-1 text-xs font-semibold tracking-[0.25em] text-[#a77a25] uppercase">
                         {toTitle(getProductCategory(product))}
                       </p>
 
-                      <span className="rounded-full bg-[#fbf7ef] px-3 py-1 text-xs text-neutral-700">
+                      <span className="shrink-0 rounded-full bg-[#fbf7ef] px-3 py-1 text-xs text-neutral-700">
                         {getStockLabel(product)}
                       </span>
                     </div>
 
                     <Link href={productHref}>
-                      <h3 className="mt-3 text-2xl font-semibold text-neutral-950 hover:text-[#a77a25]">
+                      <h3 className="mt-3 line-clamp-2 min-h-[4rem] text-2xl font-semibold leading-8 text-neutral-950 hover:text-[#a77a25]">
                         {product.name}
                       </h3>
                     </Link>
@@ -414,7 +417,7 @@ export function ShopClient({
                       {getProductDescription(product)}
                     </p>
 
-                    <div className="mt-5 flex items-center justify-between gap-4">
+                    <div className="mt-auto flex items-center justify-between gap-4 pt-5">
                       <p className="text-xl font-semibold text-neutral-950">
                         {formatPrice(product)}
                       </p>

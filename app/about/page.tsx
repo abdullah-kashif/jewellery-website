@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const stats = [
   { value: "18K / 22K", label: "Gold Options" },
@@ -91,16 +92,16 @@ export default function AboutPage() {
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur">
-            <div className="flex min-h-[430px] items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[#f7ead0] via-white to-[#caa24d] text-center text-neutral-950">
-              <div>
-                <p className="text-7xl">◆</p>
-                <h2 className="mt-5 text-3xl font-semibold">
-                  Jewellery With Meaning
-                </h2>
-                <p className="mt-3 text-sm text-neutral-700">
-                  Replace with brand workshop or jewellery image later
-                </p>
-              </div>
+            <div className="relative min-h-[430px] overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-[#f7ead0] via-white to-[#caa24d]">
+              <Image
+                src="/images/home/hero-jewellery.jpg"
+                alt="LUXORA fine jewellery collection"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
             </div>
           </div>
         </div>

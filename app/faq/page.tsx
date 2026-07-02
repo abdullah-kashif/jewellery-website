@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FAQAccordion, type FAQItem } from "@/components/faq/FAQAccordion";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 
 const faqItems: FAQItem[] = [
   {
@@ -116,24 +117,14 @@ export const metadata = {
 export default function FAQPage() {
   return (
     <main className="bg-[#fbf7ef]">
-      <section className="relative overflow-hidden bg-neutral-950 px-4 py-20 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8a651d55,transparent_35%),linear-gradient(120deg,#0a0a0a,#1f1a12)]" />
-
-        <div className="relative mx-auto max-w-7xl text-center">
-          <p className="text-sm tracking-[0.3em] text-[#d6b46a] uppercase">
-            Help Center
-          </p>
-
-          <h1 className="mt-4 text-5xl font-semibold md:text-6xl">
-            Frequently Asked Questions
-          </h1>
-
-          <p className="mx-auto mt-5 max-w-2xl leading-8 text-neutral-300">
-            Find answers about ready-made jewellery, custom orders, gemstones,
-            pricing, payment, shipping, and returns.
-          </p>
-        </div>
-      </section>
+      <PageIntroHero
+        eyebrow="Help Center"
+        title="Frequently Asked Questions"
+        description="Find answers about ready-made jewellery, custom orders, gemstones, pricing, payment, shipping, and returns."
+        imageSrc="/images/home/hero-jewellery.jpg"
+        imageAlt="Fine jewellery collection for customer support questions"
+        theme="dark"
+      />
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 lg:grid-cols-[300px_1fr]">
         <aside className="h-fit rounded-[2rem] border border-[#eadfca] bg-white p-6 shadow-sm">

@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { GemstoneCard } from "@/components/gemstone/GemstoneCard";
 import { getGemstonesFromDb } from "@/lib/products-db";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
@@ -14,29 +14,20 @@ export default async function GemstonesPage() {
 
   return (
     <main className="bg-[#fbf7ef]">
-      <section className="bg-neutral-950 px-4 py-20 text-white">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm tracking-[0.3em] text-[#d6b46a] uppercase">
-            Gemstones
-          </p>
-
-          <h1 className="mt-4 text-5xl font-semibold md:text-6xl">
-            Diamonds & Gemstones
-          </h1>
-
-          <p className="mt-5 max-w-3xl leading-8 text-neutral-300">
-            Browse gemstones loaded from Supabase. Availability and final price
-            depend on market rate, certificate, carat, origin, and treatment.
-          </p>
-
-          <Link
-            href="/custom-order"
-            className="mt-8 inline-block rounded-full bg-[#d6b46a] px-8 py-4 text-sm font-semibold tracking-[0.18em] text-neutral-950 uppercase hover:bg-white"
-          >
-            Ask For Stone Sourcing
-          </Link>
-        </div>
-      </section>
+      <PageIntroHero
+        eyebrow="Gemstones"
+        title="Diamonds & Gemstones"
+        description="Browse gemstones loaded from Supabase. Availability and final price depend on market rate, certificate, carat, origin, and treatment."
+        imageSrc="/images/home/gemstone-diamond.jpg"
+        imageAlt="Certified diamond gemstone for bespoke jewellery"
+        theme="dark"
+        actions={[
+          {
+            href: "/custom-order",
+            label: "Ask For Stone Sourcing",
+          },
+        ]}
+      />
 
       <section className="mx-auto max-w-7xl px-4 py-12">
         <div className="mb-8">

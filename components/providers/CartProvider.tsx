@@ -35,7 +35,8 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
-const STORAGE_KEY = "luxora-cart";
+const STORAGE_KEY = "luxora_cart";
+const LEGACY_STORAGE_KEY = "luxora-cart";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -43,7 +44,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const savedCart = window.localStorage.getItem(STORAGE_KEY);
+      const savedCart =
+        window.localStorage.getItem(STORAGE_KEY) ||
+        window.localStorage.getItem(LEGACY_STORAGE_KEY);
 
       if (savedCart) {
         setCartItems(JSON.parse(savedCart));
@@ -59,6 +62,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (!isReady) return;
 
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
+    window.dispatchEvent(new Event("luxora-cart-updated"));
   }, [cartItems, isReady]);
 
   function addToCart(product: Product) {

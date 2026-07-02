@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { normalizeProductSlug } from "@/lib/product-slug";
 
 export const dynamic = "force-dynamic";
 
@@ -38,17 +39,38 @@ function normalizeStockStatus(value: unknown) {
   return cleanText(value) || "In Stock";
 }
 
+function normalizeImageUrl(value: unknown) {
+  const imageUrl = cleanText(value);
+
+  if (!imageUrl) {
+    return null;
+  }
+
+  if (imageUrl.startsWith("/")) {
+    return imageUrl;
+  }
+
+  try {
+    const parsedUrl = new URL(imageUrl);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:"
+      ? imageUrl
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 function buildProductPayload(body: Record<string, unknown>) {
   return {
     name: cleanText(body.name),
-    slug: cleanText(body.slug),
+    slug: normalizeProductSlug(body.slug, body.name),
     category: cleanText(body.category) || "rings",
     product_type: cleanText(body.productType || body.product_type) || "ready-made",
     price: toNumberOrNull(body.price),
     estimated_price_from: toNumberOrNull(
       body.estimatedPriceFrom || body.estimated_price_from
     ),
-    image_url: toNullableText(body.imageUrl || body.image_url),
+    image_url: normalizeImageUrl(body.imageUrl || body.image_url),
     quote_required: Boolean(body.quoteRequired ?? body.quote_required),
     metal_type: toNullableText(body.metalType || body.metal_type),
     gold_karat: toNullableText(body.goldKarat || body.gold_karat),
@@ -87,6 +109,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     const { id } = await context.params;
     const body = await request.json();
     const payload = buildProductPayload(body);
+    const submittedImageUrl = cleanText(body.imageUrl || body.image_url);
 
     if (!id) {
       return NextResponse.json(
@@ -115,6 +138,33 @@ export async function PATCH(request: Request, context: RouteContext) {
           error: "Product slug is required.",
         },
         { status: 400 }
+      );
+    }
+
+    if (submittedImageUrl && !payload.image_url) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Product image URL must be a valid http(s) URL.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const { data: existingProduct } = await supabaseAdmin
+      .from("products")
+      .select("id")
+      .eq("slug", payload.slug)
+      .neq("id", id)
+      .maybeSingle();
+
+    if (existingProduct) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "A product with this slug already exists.",
+        },
+        { status: 409 }
       );
     }
 

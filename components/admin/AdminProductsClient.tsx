@@ -2,6 +2,7 @@
 
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { createProductSlug } from "@/lib/product-slug";
 
 type SupabaseProduct = {
   id: string;
@@ -125,15 +126,6 @@ const inputClass =
 
 const labelClass =
   "mb-2 block text-xs font-semibold tracking-[0.16em] text-neutral-700 uppercase";
-
-function makeSlug(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 function formatPrice(price: number | null) {
   if (!price) {
@@ -319,7 +311,7 @@ export function AdminProductsClient() {
     setError("");
     setSuccess("");
 
-    const finalSlug = form.slug || makeSlug(form.name);
+    const finalSlug = createProductSlug(form.slug || form.name);
 
     try {
       const finalImageUrl = await uploadProductImage(finalSlug);
@@ -574,7 +566,9 @@ export function AdminProductsClient() {
 
                   <button
                     type="button"
-                    onClick={() => updateField("slug", makeSlug(form.name))}
+                    onClick={() =>
+                      updateField("slug", createProductSlug(form.name))
+                    }
                     className="rounded-2xl bg-neutral-950 px-4 text-xs font-semibold text-white hover:bg-[#a77a25]"
                   >
                     Generate

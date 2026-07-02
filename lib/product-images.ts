@@ -1,8 +1,10 @@
 export const productImageMap: Record<string, string> = {
-  "diamond-solitaire-ring": "/images/products/diamond-solitaire-ring.svg",
-  "pearl-drop-earrings": "/images/products/pearl-drop-earrings.svg",
-  "gold-tennis-bracelet": "/images/products/gold-tennis-bracelet.svg",
-  "emerald-cut-ring": "/images/products/emerald-cut-ring.svg",
+  "diamond-solitaire-ring":
+    "/images/home/product-diamond-solitaire-ring.jpg",
+  "pearl-drop-earrings": "/images/home/product-pearl-drop-earrings.jpg",
+  "gold-tennis-bracelet":
+    "/images/home/product-gold-tennis-bracelet.jpg",
+  "emerald-cut-ring": "/images/home/product-emerald-cut-ring.jpg",
   "diamond-pendant": "/images/products/diamond-pendant.svg",
   "ruby-halo-ring": "/images/products/ruby-halo-ring.svg",
   "custom-name-pendant": "/images/products/custom-name-pendant.svg",
@@ -19,4 +21,8 @@ export const productImageMap: Record<string, string> = {
 
 export function getProductImage(slug: string) {
   return productImageMap[slug] || "/images/products/diamond-solitaire-ring.svg";
+}
+
+export function getKnownProductImage(slug: string) {
+  return productImageMap[slug] || null;
 }

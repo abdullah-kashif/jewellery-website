@@ -5,6 +5,7 @@ import {
   getProducts,
   formatProductPrice,
 } from "@/lib/products";
+import { getKnownProductImage } from "@/lib/product-images";
 
 export const dynamic = "force-dynamic";
 
@@ -47,24 +48,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
       : product.image_url
         ? [product.image_url]
         : [];
+  const primaryImage = product.image_url || getKnownProductImage(product.slug);
 
   return (
     <main className="bg-[#fbf7ef]">
-      <section className="border-b border-[#eadfca] bg-white px-4 py-10">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm tracking-[0.3em] text-[#a77a25] uppercase">
-            Home / Product
-          </p>
-        </div>
-      </section>
-
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 lg:grid-cols-[1fr_1fr]">
         <div>
           <div className="flex aspect-square items-center justify-center rounded-[2rem] border border-[#eadfca] bg-gradient-to-br from-white via-[#fbf7ef] to-[#eadfca] p-6 shadow-sm">
-            {product.image_url ? (
+            {primaryImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={product.image_url}
+                src={primaryImage}
                 alt={product.name}
                 className="h-full w-full rounded-[1.5rem] object-cover"
               />
@@ -101,7 +95,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
 
         <div>
-          <p className="text-sm font-semibold tracking-[0.22em] text-[#a77a25] uppercase">
+          <p className="text-sm tracking-[0.3em] text-[#a77a25] uppercase">
+            Home / Product
+          </p>
+
+          <p className="mt-5 text-sm font-semibold tracking-[0.22em] text-[#a77a25] uppercase">
             {product.category || "Jewellery"}
           </p>
 
@@ -150,11 +148,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-3 border-t border-[#eadfca] pt-6 text-sm text-neutral-600 md:grid-cols-3">
-            <p>◆ Worldwide Shipping</p>
-            <p>◆ 30 Days Returns</p>
-            <p>◆ Certified Jewellery</p>
-          </div>
         </div>
       </section>
 
@@ -191,7 +184,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {relatedProducts.map((item) => (
               <Link
                 key={item.id}
-                href={`/product/${item.slug}`}
+                href={`/product/${encodeURIComponent(item.slug)}`}
                 className="rounded-[1.6rem] border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="flex aspect-square items-center justify-center rounded-[1.3rem] bg-gradient-to-br from-white via-[#fbf7ef] to-[#eadfca]">

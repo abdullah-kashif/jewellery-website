@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { decodeProductSlug } from "@/lib/product-slug";
 
 export type Product = {
   id: string;
@@ -64,10 +65,11 @@ export async function getFeaturedProducts() {
 }
 
 export async function getProductBySlug(slug: string) {
+  const decodedSlug = decodeProductSlug(slug);
   const { data, error } = await supabaseAdmin
     .from("products")
     .select("*")
-    .eq("slug", slug)
+    .eq("slug", decodedSlug)
     .eq("is_active", true)
     .maybeSingle();
 

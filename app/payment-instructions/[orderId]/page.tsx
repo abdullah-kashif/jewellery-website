@@ -3,6 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { PaymentProofForm } from "@/components/payment/PaymentProofForm";
 import { PayPalCheckoutButton } from "@/components/payment/PayPalCheckoutButton";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 
 export const dynamic = "force-dynamic";
 
@@ -114,22 +115,14 @@ export default async function PaymentInstructionsPage({
 
     return (
         <main className="bg-[#fbf7ef]">
-            <section className="border-b border-[#eadfca] bg-neutral-950 px-4 py-16 text-white">
-                <div className="mx-auto max-w-7xl">
-                    <p className="text-sm tracking-[0.3em] text-[#d6b46a] uppercase">
-                        Payment Instructions
-                    </p>
-
-                    <h1 className="mt-4 text-5xl font-semibold">
-                        Complete Your Payment
-                    </h1>
-
-                    <p className="mt-4 max-w-2xl leading-7 text-neutral-300">
-                        Pay online with PayPal when available, or use manual payment
-                        instructions and send proof for admin verification.
-                    </p>
-                </div>
-            </section>
+            <PageIntroHero
+                eyebrow="Payment Instructions"
+                title="Complete Your Payment"
+                description="Pay online with PayPal when available, or use manual payment instructions and send proof for admin verification."
+                imageSrc="/images/home/product-gold-tennis-bracelet.jpg"
+                imageAlt="Fine jewellery payment and order confirmation"
+                theme="dark"
+            />
 
             <section className="mx-auto grid max-w-7xl gap-8 px-4 py-12 lg:grid-cols-[1fr_420px]">
                 <div className="space-y-8">
@@ -273,7 +266,7 @@ export default async function PaymentInstructionsPage({
 
                     <div className="mt-6 space-y-3">
                         <a
-                            href={`https://wa.me/0000000000?text=Hello%20LUXORA,%20I%20want%20to%20confirm%20payment%20for%20order%20${encodeURIComponent(
+                            href={`https://wa.me/923142024447?text=Hello%20LUXORA,%20I%20want%20to%20confirm%20payment%20for%20order%20${encodeURIComponent(
                                 reference
                             )}`}
                             target="_blank"

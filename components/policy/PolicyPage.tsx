@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 
 type PolicySection = {
   title: string;
@@ -22,27 +23,18 @@ export function PolicyPage({
 }: PolicyPageProps) {
   return (
     <main className="bg-[#fbf7ef]">
-      <section className="relative overflow-hidden bg-neutral-950 px-4 py-20 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8a651d55,transparent_35%),linear-gradient(120deg,#0a0a0a,#1f1a12)]" />
-
-        <div className="relative mx-auto max-w-7xl">
-          <p className="text-sm tracking-[0.3em] text-[#d6b46a] uppercase">
-            {label}
-          </p>
-
-          <h1 className="mt-4 text-5xl font-semibold md:text-6xl">
-            {title}
-          </h1>
-
-          <p className="mt-5 max-w-3xl leading-8 text-neutral-300">
-            {description}
-          </p>
-
+      <PageIntroHero
+        eyebrow={label}
+        title={title}
+        description={description}
+        imageSrc="/images/home/hero-jewellery.jpg"
+        imageAlt="Fine jewellery policy and customer support"
+        theme="dark"
+      >
           <p className="mt-6 text-sm text-neutral-400">
             Last updated: {lastUpdated}
           </p>
-        </div>
-      </section>
+      </PageIntroHero>
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 lg:grid-cols-[300px_1fr]">
         <aside className="h-fit rounded-[2rem] border border-[#eadfca] bg-white p-6 shadow-sm">

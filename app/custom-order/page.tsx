@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { QuoteRequestForm } from "@/components/forms/QuoteRequestForm";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 
 type CustomOrderPageProps = {
   searchParams?: Promise<{
@@ -22,32 +23,20 @@ export default async function CustomOrderPage({
 
   return (
     <main className="bg-[#fbf7ef]">
-      <section className="border-b border-[#eadfca] bg-white px-4 py-12">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm tracking-[0.3em] text-[#a77a25] uppercase">
-            Home / Custom Order
-          </p>
-
-          <div className="mt-4 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <div>
-              <h1 className="text-4xl font-semibold text-neutral-950 md:text-5xl">
-                Start Your Custom Order
-              </h1>
-              <p className="mt-4 max-w-2xl leading-7 text-neutral-600">
-                Fill out the form below and our team will contact you with a
-                quote based on your design, gold, diamond, gemstone, and budget.
-              </p>
-            </div>
-
-            <Link
-              href="/custom-jewellery"
-              className="rounded-full border border-[#d6b46a] px-7 py-3 text-center text-xs font-semibold tracking-[0.18em] text-[#a77a25] uppercase hover:bg-[#d6b46a] hover:text-neutral-950"
-            >
-              How It Works
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageIntroHero
+        eyebrow="Home / Custom Order"
+        title="Start Your Custom Order"
+        description="Fill out the form below and our team will contact you with a quote based on your design, gold, diamond, gemstone, and budget."
+        imageSrc="/images/home/custom-jewellery-workbench.jpg"
+        imageAlt="Custom jewellery workbench with ring design tools"
+        actions={[
+          {
+            href: "/custom-jewellery",
+            label: "How It Works",
+            variant: "secondary",
+          },
+        ]}
+      />
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 lg:grid-cols-[1fr_360px]">
         <QuoteRequestForm

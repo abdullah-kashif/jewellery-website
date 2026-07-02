@@ -13,32 +13,32 @@ function formatPrice(price: number) {
 }
 
 export function ProductCard({ product }: { product: Product }) {
-  const productHref = `/product/${product.slug}`;
-  const quoteHref = `/custom-order?product=${product.slug}`;
+  const productHref = `/product/${encodeURIComponent(product.slug)}`;
+  const quoteHref = `/custom-order?product=${encodeURIComponent(product.slug)}`;
 
   return (
-    <article className="group overflow-hidden rounded-3xl border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
       <Link href={productHref}>
         <ProductImageBox
           slug={product.slug}
           name={product.name}
-          className="h-64"
+          className="aspect-square w-full"
         />
       </Link>
 
-      <div className="mt-5">
+      <div className="mt-5 flex flex-1 flex-col">
         <div className="flex items-center justify-between gap-3">
-          <p className="text-xs tracking-[0.2em] text-[#a77a25] uppercase">
+          <p className="line-clamp-1 text-xs tracking-[0.2em] text-[#a77a25] uppercase">
             {product.category.replace("-", " ")}
           </p>
 
-          <span className="rounded-full bg-[#fbf7ef] px-3 py-1 text-[11px] font-medium text-neutral-700">
+          <span className="shrink-0 rounded-full bg-[#fbf7ef] px-3 py-1 text-[11px] font-medium text-neutral-700">
             {product.stockStatus}
           </span>
         </div>
 
         <Link href={productHref}>
-          <h3 className="mt-3 text-lg font-semibold text-neutral-950 transition group-hover:text-[#a77a25]">
+          <h3 className="mt-3 line-clamp-2 min-h-[3.5rem] text-lg font-semibold leading-7 text-neutral-950 transition group-hover:text-[#a77a25]">
             {product.name}
           </h3>
         </Link>
@@ -47,7 +47,7 @@ export function ProductCard({ product }: { product: Product }) {
           {product.shortDescription}
         </p>
 
-        <div className="mt-4">
+        <div className="mt-auto pt-4">
           {product.quoteRequired ? (
             <div>
               <p className="text-lg font-semibold text-neutral-950">

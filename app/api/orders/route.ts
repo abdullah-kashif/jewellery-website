@@ -14,6 +14,20 @@ type CheckoutItem = {
   image_url?: string | null;
 };
 
+type ProductCartRow = {
+  id: string;
+  name: string;
+  slug: string;
+  category: string | null;
+  price: number | null;
+  image_url: string | null;
+  is_active: boolean | null;
+  quote_required: boolean | null;
+  stock_status: string | null;
+};
+
+class CheckoutValidationError extends Error {}
+
 function cleanText(value: unknown) {
   return String(value || "").trim();
 }
@@ -26,6 +40,10 @@ function cleanNumber(value: unknown) {
 function generateOrderReference() {
   const randomPart = Math.floor(100000 + Math.random() * 900000);
   return `LXO-${randomPart}`;
+}
+
+function normalizeCartKey(item: CheckoutItem) {
+  return cleanText(item.id) || cleanText(item.slug);
 }
 
 export async function POST(request: Request) {
@@ -70,23 +88,93 @@ export async function POST(request: Request) {
       );
     }
 
-    const normalizedItems = items.map((item, index) => {
-      const name = cleanText(item.name) || `Jewellery Item ${index + 1}`;
-      const slug =
-        cleanText(item.slug) ||
-        name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const productIds = Array.from(
+      new Set(items.map((item) => cleanText(item.id)).filter(Boolean))
+    );
+    const productSlugs = Array.from(
+      new Set(items.map((item) => cleanText(item.slug)).filter(Boolean))
+    );
+
+    if (productIds.length === 0 && productSlugs.length === 0) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Cart items must include valid product identifiers.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const productFilters = [
+      ...productIds.map((id) => `id.eq.${id}`),
+      ...productSlugs.map((slug) => `slug.eq.${slug}`),
+    ];
+
+    const { data: productRows, error: productsError } = await supabaseAdmin
+      .from("products")
+      .select(
+        "id, name, slug, category, price, image_url, is_active, quote_required, stock_status"
+      )
+      .or(productFilters.join(","));
+
+    if (productsError) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: productsError.message,
+        },
+        { status: 500 }
+      );
+    }
+
+    const productsById = new Map<string, ProductCartRow>();
+    const productsBySlug = new Map<string, ProductCartRow>();
+
+    ((productRows || []) as ProductCartRow[]).forEach((product) => {
+      productsById.set(product.id, product);
+      productsBySlug.set(product.slug, product);
+    });
+
+    const normalizedItems = items.map((item) => {
+      const product =
+        productsById.get(cleanText(item.id)) ||
+        productsBySlug.get(cleanText(item.slug));
+
+      if (!product) {
+        throw new CheckoutValidationError(
+          `Product is no longer available: ${normalizeCartKey(item)}`
+        );
+      }
+
+      if (!product.is_active || product.quote_required) {
+        throw new CheckoutValidationError(
+          `${product.name} cannot be checked out directly.`
+        );
+      }
+
+      if (product.stock_status === "out_of_stock") {
+        throw new CheckoutValidationError(
+          `${product.name} is currently out of stock.`
+        );
+      }
 
       const quantity = Math.max(1, Math.floor(cleanNumber(item.quantity)));
-      const price = cleanNumber(item.price);
+      const price = cleanNumber(product.price);
+
+      if (price <= 0) {
+        throw new CheckoutValidationError(
+          `${product.name} does not have a valid checkout price.`
+        );
+      }
 
       return {
-        product_id: cleanText(item.id) || null,
-        name,
-        slug,
-        category: cleanText(item.category) || "Jewellery",
+        product_id: product.id,
+        name: product.name,
+        slug: product.slug,
+        category: cleanText(product.category) || "Jewellery",
         price,
         quantity,
-        image_url: cleanText(item.image_url) || null,
+        image_url: cleanText(product.image_url) || null,
       };
     });
 
@@ -220,6 +308,16 @@ export async function POST(request: Request) {
       order,
     });
   } catch (error) {
+    if (error instanceof CheckoutValidationError) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: error.message,
+        },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       {
         ok: false,

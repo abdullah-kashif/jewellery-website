@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   categories,
   featuredProducts,
@@ -6,6 +7,25 @@ import {
   reviews,
   trustPoints,
 } from "@/lib/site-data";
+import { getKnownProductImage } from "@/lib/product-images";
+
+const categoryImages: Record<string, string> = {
+  rings: "/images/home/category-rings.jpg",
+  earrings: "/images/home/category-earrings.jpg",
+  necklaces: "/images/home/category-necklaces.jpg",
+  bracelets: "/images/home/category-bracelets.jpg",
+  pendants: "/images/home/category-pendants.jpg",
+  "bridal-sets": "/images/home/category-bridal-sets.jpg",
+};
+
+const gemstoneImages: Record<string, string> = {
+  all: "/images/home/gemstone-diamond.jpg",
+  diamond: "/images/home/gemstone-diamond.jpg",
+  ruby: "/images/home/gemstone-ruby.jpg",
+  emerald: "/images/home/gemstone-emerald.jpg",
+  sapphire: "/images/home/gemstone-sapphire.jpg",
+  opal: "/images/home/gemstone-opal.jpg",
+};
 
 export default function HomePage() {
   return (
@@ -46,16 +66,15 @@ export default function HomePage() {
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur">
-            <div className="flex h-[460px] items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[#f7ead0] via-white to-[#caa24d] text-center text-neutral-950">
-              <div>
-                <p className="text-sm tracking-[0.35em] uppercase">
-                  Luxury Jewellery
-                </p>
-                <p className="mt-4 text-5xl">◆</p>
-                <p className="mt-4 text-lg font-medium">
-                  Replace with hero jewellery image later
-                </p>
-              </div>
+            <div className="relative flex aspect-[4/3] min-h-[300px] items-center justify-center overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-[#f7ead0] via-white to-[#caa24d] text-center text-neutral-950 sm:min-h-[420px]">
+              <Image
+                src="/images/home/hero-jewellery.jpg"
+                alt="Diamond ring, pearl earrings, bracelet, and emerald ring"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="z-10 object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
@@ -92,7 +111,14 @@ export default function HomePage() {
                 href={category.href}
                 className="group overflow-hidden rounded-3xl border border-[#eadfca] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="flex h-36 items-center justify-center rounded-2xl bg-gradient-to-br from-[#fff8ec] to-[#d9bc76] text-center text-sm font-medium text-neutral-800">
+                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-[#fff8ec] to-[#d9bc76] text-center text-sm font-medium text-neutral-800 sm:aspect-square">
+                  <Image
+                    src={categoryImages[category.slug]}
+                    alt={category.imageText}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                    className="z-10 object-cover transition duration-500 group-hover:scale-105"
+                  />
                   {category.imageText}
                 </div>
                 <h3 className="mt-4 text-center text-sm font-semibold tracking-[0.18em] uppercase text-neutral-900 group-hover:text-[#a77a25]">
@@ -131,7 +157,17 @@ export default function HomePage() {
                 className="overflow-hidden rounded-3xl border border-[#eadfca] bg-[#fbf7ef] p-4"
               >
                 <Link href={`/product/${product.slug}`}>
-                  <div className="flex h-64 items-center justify-center rounded-2xl bg-gradient-to-br from-white to-[#dcc27c] text-center text-neutral-800">
+                  <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-white to-[#dcc27c] text-center text-neutral-800">
+                    <Image
+                      src={
+                        getKnownProductImage(product.slug) ||
+                        "/images/home/hero-jewellery.jpg"
+                      }
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="z-10 object-cover transition duration-500 hover:scale-105"
+                    />
                     Jewellery Image
                   </div>
                 </Link>
@@ -220,8 +256,16 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="flex min-h-[420px] items-center justify-center rounded-[2rem] bg-gradient-to-br from-neutral-950 to-[#a77a25] p-8 text-center text-white">
-            <div>
+          <div className="relative flex min-h-[360px] items-center justify-center overflow-hidden rounded-[2rem] bg-gradient-to-br from-neutral-950 to-[#a77a25] p-8 text-center text-white sm:min-h-[420px]">
+            <Image
+              src="/images/home/custom-jewellery-workbench.jpg"
+              alt="Custom diamond ring crafting workbench"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/35" />
+            <div className="relative z-10">
               <p className="text-6xl">◇</p>
               <h3 className="mt-5 text-3xl font-semibold">Made Only For You</h3>
               <p className="mt-4 text-neutral-200">
@@ -246,9 +290,16 @@ export default function HomePage() {
               <Link
                 key={stone.name}
                 href={stone.href}
-                className="rounded-3xl border border-[#eadfca] bg-[#fbf7ef] p-6 text-center transition hover:-translate-y-1 hover:shadow-xl"
+                className="group rounded-3xl border border-[#eadfca] bg-[#fbf7ef] p-6 text-center transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br from-white to-[#d6b46a] text-4xl">
+                <div className="relative mx-auto flex aspect-square w-full max-w-52 items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-white to-[#d6b46a] text-4xl">
+                  <Image
+                    src={gemstoneImages[stone.slug]}
+                    alt={`${stone.name} gemstone`}
+                    fill
+                    sizes="(max-width: 640px) 70vw, (max-width: 1024px) 40vw, 22vw"
+                    className="z-10 object-cover transition duration-500 group-hover:scale-105"
+                  />
                   ◆
                 </div>
                 <h3 className="mt-5 text-xl font-semibold">{stone.name}</h3>

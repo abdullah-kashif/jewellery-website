@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 
 type ContactPageProps = {
   searchParams?: Promise<{
@@ -16,13 +16,8 @@ const contactCards = [
   },
   {
     title: "WhatsApp",
-    value: "+92 XXXXXXXXXX",
-    text: "Fast support for custom jewellery and urgent orders.",
-  },
-  {
-    title: "Phone",
-    value: "+92 XXXXXXXXXX",
-    text: "Available during business working hours.",
+    value: "+92 314 2024447",
+    text: "24/7 support for custom jewellery, orders, and urgent questions.",
   },
   {
     title: "Worldwide",
@@ -42,33 +37,19 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
   return (
     <main className="bg-[#fbf7ef]">
-      <section className="border-b border-[#eadfca] bg-white px-4 py-12">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm tracking-[0.3em] text-[#a77a25] uppercase">
-            Home / Contact
-          </p>
-
-          <div className="mt-4 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <div>
-              <h1 className="text-4xl font-semibold text-neutral-950 md:text-5xl">
-                Get In Touch
-              </h1>
-
-              <p className="mt-4 max-w-2xl leading-7 text-neutral-600">
-                Contact us for custom jewellery, gemstones, product questions,
-                order support, payment guidance, and worldwide shipping.
-              </p>
-            </div>
-
-            <Link
-              href="/custom-order"
-              className="rounded-full bg-neutral-950 px-7 py-3 text-center text-xs font-semibold tracking-[0.18em] text-white uppercase transition hover:bg-[#a77a25]"
-            >
-              Start Custom Order
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageIntroHero
+        eyebrow="Home / Contact"
+        title="Get In Touch"
+        description="Contact us for custom jewellery, gemstones, product questions, order support, payment guidance, and worldwide shipping."
+        imageSrc="/images/home/custom-jewellery-workbench.jpg"
+        imageAlt="Jewellery workbench for customer design consultation"
+        actions={[
+          {
+            href: "/custom-order",
+            label: "Start Custom Order",
+          },
+        ]}
+      />
 
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 lg:grid-cols-[380px_1fr]">
         <aside className="space-y-6">
@@ -106,23 +87,6 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             </div>
           ))}
 
-          <div className="rounded-[2rem] border border-[#eadfca] bg-white p-6 shadow-sm">
-            <p className="text-xs font-semibold tracking-[0.2em] text-[#a77a25] uppercase">
-              Visit / Map
-            </p>
-
-            <div className="mt-4 flex h-52 items-center justify-center rounded-2xl bg-gradient-to-br from-[#fbf7ef] to-[#d6b46a] text-center text-neutral-950">
-              <div>
-                <p className="text-4xl">⌖</p>
-                <p className="mt-3 text-sm font-semibold">
-                  Map Placeholder
-                </p>
-                <p className="mt-1 text-xs text-neutral-600">
-                  Replace with Google Map later
-                </p>
-              </div>
-            </div>
-          </div>
         </aside>
 
         <ContactForm

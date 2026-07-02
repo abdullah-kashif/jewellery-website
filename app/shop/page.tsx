@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ShopClient, type ShopProduct } from "@/components/shop/ShopClient";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { PageIntroHero } from "@/components/ui/PageIntroHero";
 
 export const dynamic = "force-dynamic";
 
@@ -38,31 +38,19 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   return (
     <main>
-      <section className="border-b border-[#eadfca] bg-white px-4 py-16">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center">
-          <div>
-            <p className="text-sm tracking-[0.32em] text-[#a77a25] uppercase">
-              Home / Shop
-            </p>
-
-            <h1 className="mt-5 text-5xl font-semibold text-neutral-950 md:text-6xl">
-              Our Jewellery Collection
-            </h1>
-
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-neutral-700">
-              Browse ready-made jewellery, made-to-order pieces, and luxury
-              gemstone designs crafted for worldwide customers.
-            </p>
-          </div>
-
-          <Link
-            href="/custom-order"
-            className="inline-flex w-fit items-center justify-center rounded-full bg-neutral-950 px-8 py-4 text-sm font-semibold tracking-[0.18em] text-white uppercase transition hover:bg-[#a77a25]"
-          >
-            Start Custom Order
-          </Link>
-        </div>
-      </section>
+      <PageIntroHero
+        eyebrow="Home / Shop"
+        title="Our Jewellery Collection"
+        description="Browse ready-made jewellery, made-to-order pieces, and luxury gemstone designs crafted for worldwide customers."
+        imageSrc="/images/home/hero-jewellery.jpg"
+        imageAlt="Diamond rings, earrings, and fine jewellery collection"
+        actions={[
+          {
+            href: "/custom-order",
+            label: "Start Custom Order",
+          },
+        ]}
+      />
 
       <ShopClient
         products={products}

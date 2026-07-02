@@ -61,7 +61,7 @@ export function Footer() {
           <h3 className="site-footer__title">Contact</h3>
           <div className="site-footer__contact">
             <p>Email: info@luxora.com</p>
-            <p>WhatsApp: +92XXXXXXXXXX</p>
+            <p>WhatsApp: +92 314 2024447</p>
             <p>Worldwide Shipping Available</p>
             <Link href="/contact" className="site-footer__button">
               Contact Us

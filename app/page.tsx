@@ -33,45 +33,45 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-neutral-950 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#8a651d55,transparent_35%),linear-gradient(120deg,#0a0a0a,#1f1a12)]" />
 
-        <div className="relative mx-auto grid min-h-[680px] max-w-7xl items-center gap-10 px-4 py-20 lg:grid-cols-2">
-          <div>
-            <p className="text-sm tracking-[0.3em] text-[#d6b46a] uppercase">
+        <div className="relative mx-auto grid w-full max-w-7xl items-center gap-8 px-4 py-12 sm:py-16 lg:min-h-[680px] lg:grid-cols-2 lg:gap-10 lg:py-20">
+          <div className="min-w-0">
+            <p className="text-xs tracking-[0.22em] text-[#d6b46a] uppercase sm:text-sm sm:tracking-[0.3em]">
               Custom Fine Jewellery
             </p>
 
-            <h1 className="mt-6 max-w-2xl text-5xl font-semibold leading-tight md:text-7xl">
+            <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl md:text-7xl">
               Certified Gemstones, Crafted For You.
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-8 text-neutral-300">
+            <p className="mt-5 max-w-xl text-base leading-7 text-neutral-300 sm:text-lg sm:leading-8">
               Discover ready-made jewellery, custom luxury designs, diamonds,
               and certified gemstones delivered worldwide.
             </p>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-8 flex w-full min-w-0 flex-col gap-4 sm:mt-10 sm:flex-row">
               <Link
                 href="/shop"
-                className="rounded-full bg-[#d6b46a] px-8 py-4 text-sm font-semibold tracking-[0.18em] text-neutral-950 uppercase transition hover:bg-white"
+                className="inline-flex w-full min-w-0 items-center justify-center rounded-full bg-[#d6b46a] px-5 py-4 text-center text-xs font-semibold tracking-[0.12em] text-neutral-950 uppercase transition hover:bg-white sm:w-auto sm:px-8 sm:text-sm sm:tracking-[0.18em]"
               >
                 Shop Collection
               </Link>
 
               <Link
                 href="/custom-order"
-                className="rounded-full border border-white/30 px-8 py-4 text-sm font-semibold tracking-[0.18em] text-white uppercase transition hover:border-[#d6b46a] hover:text-[#d6b46a]"
+                className="inline-flex w-full min-w-0 items-center justify-center rounded-full border border-white/30 px-5 py-4 text-center text-xs font-semibold tracking-[0.12em] text-white uppercase transition hover:border-[#d6b46a] hover:text-[#d6b46a] sm:w-auto sm:px-8 sm:text-sm sm:tracking-[0.18em]"
               >
                 Start Custom Order
               </Link>
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur">
-            <div className="relative flex aspect-[4/3] min-h-[300px] items-center justify-center overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-[#f7ead0] via-white to-[#caa24d] text-center text-neutral-950 sm:min-h-[420px]">
+          <div className="min-w-0 rounded-[1.5rem] border border-white/10 bg-white/10 p-3 shadow-2xl backdrop-blur sm:rounded-[2rem] sm:p-6">
+            <div className="relative flex aspect-[4/3] min-h-[220px] items-center justify-center overflow-hidden rounded-[1.1rem] bg-gradient-to-br from-[#f7ead0] via-white to-[#caa24d] text-center text-neutral-950 sm:min-h-[420px] sm:rounded-[1.5rem]">
               <Image
                 src="/images/home/hero-jewellery.jpg"
                 alt="Diamond ring, pearl earrings, bracelet, and emerald ring"
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 640px) calc(100vw - 56px), (max-width: 1024px) 100vw, 50vw"
                 className="z-10 object-cover"
                 priority
               />
